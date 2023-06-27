@@ -1,6 +1,6 @@
-fcd_usage() {
+cd_usage() {
     echo "Usage of fcd"
 }
-fcd() {
+cd() {
     echo "fcd command"
 }

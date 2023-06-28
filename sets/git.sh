@@ -1,1 +1,0 @@
-source_dir "$sets_path/git"

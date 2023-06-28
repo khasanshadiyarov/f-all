@@ -3,8 +3,11 @@
 # Author:
 #   Khasan Shadiyarov, khasan.shadiyarov@gmail.com
 
+# Define absolute path to the tool
+script_dir=$(cd "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+
 # Source libraries
-source ./libs/err.sh
+source "$script_dir/libs/err.sh"
 
 ####
 # main - Handle command execution based input arguments.
@@ -25,7 +28,7 @@ function main() {
             usage
             ;;
         *) # Handle commands
-            local command="$(find ./sets -type f -name "$1".sh)"
+            local command="$(find "$script_dir/sets" -type f -name "$1.sh")"
             if [ ! -z "$command" -a "$command" != " " ]; then
                 source "$command"
                 case "$2" in
@@ -34,14 +37,14 @@ function main() {
                         ;;
                     *)
                         shift
-                        seval run $@
+                        seval run "$@"
                 esac
             else
                 err "$1: Command not found"
-                exit 1
+                return 1
             fi
     esac
 }
 
 # Run the script with input arguments
-seval main $@
+seval main "$@"

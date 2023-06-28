@@ -41,5 +41,5 @@ Version: v0.0.1
 Author:
     Khasan Shadiyarov, khasan.shadiyarov@gmail.com
 EOF
-    exit 0
+    return 0
 }

@@ -33,9 +33,9 @@ function seval() {
     local func="$1"
     shift
     if type "$func" >/dev/null 2>&1; then
-        eval "$func" $@
+        eval "$func" "$@"
     else
         err "$func: Command not found"
-        exit 1
+        return 1
     fi
 }

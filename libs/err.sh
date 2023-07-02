@@ -9,7 +9,7 @@
 # Arguments:
 #   $* - Error message and other error-related arguments
 # Outputs:
-#   Writes error message to STDERR.
+#   Write error message to STDERR.
 # Returns:
 #   Exit status code: 0
 ####

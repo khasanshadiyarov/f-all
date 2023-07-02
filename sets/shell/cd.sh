@@ -52,8 +52,6 @@ Arguments:
         Optional rough or exact name of a directory. Searched as *DIR*.
 
 Set: Shell
-Author:
-    Khasan Shadiyarov, khasan.shadiyarov@gmail.com
 EOF
     return 0
 }

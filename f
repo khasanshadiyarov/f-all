@@ -4,15 +4,64 @@
 #   Khasan Shadiyarov, khasan.shadiyarov@gmail.com
 
 # Define absolute path to the tool
-script_dir=$(cd "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+SCRIPT_DIR=$(cd "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 
 # Source libraries
-source "$script_dir/libs/err.sh"
+source "$SCRIPT_DIR/libs/err.sh"
+
+####
+# usage - Print usage instructions for the tool.
+# Globals:
+#   SCRIPT_DIR
+# Arguments:
+#   None
+# Outputs:
+#   Write usage instructions to STDOUT.
+# Returns:
+#   Exit status code: 0
+####
+function usage() {
+    cat <<EOF
+Usage: f [-h | --help] [-v | --version]
+         [COMMAND] [OPTION]...
+Enhance some terminal operations by combining them with searching tools.
+
+Commands:
+EOF
+    # Print commands of installed sets
+    cat "$SCRIPT_DIR"/sets/*/manifest.txt 2>/dev/null
+    cat <<EOF
+To see more detailed help on a certain command, run: f [COMMAND] [-h | --help]
+EOF
+    return 0
+}
+
+####
+# version - Print information about the tool.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   Write version and additional information to STDOUT.
+# Returns:
+#   Exit status code: 0
+####
+function version() {
+    cat <<EOF
+f-all version v0.0.1
+License:
+    UNLINCENSED
+Author:
+    Khasan Shadiyarov, khasan.shadiyarov@gmail.com
+EOF
+    return 0
+}
 
 ####
 # main - Handle command execution based input arguments.
 # Globals:
-#   None
+#   SCRIPT_DIR
 # Arguments:
 #   $1 - Command to be executed
 #   $2 - Optional arguments for command-specific usage
@@ -24,11 +73,13 @@ source "$script_dir/libs/err.sh"
 function main() {
     case "$1" in
         -h | --help | "")
-            source ./f.sh
-            usage
+            seval usage
+            ;;
+        -v | --version)
+            seval version
             ;;
         *) # Handle commands
-            local command="$(find "$script_dir/sets" -type f -name "$1.sh")"
+            local command="$(find "$SCRIPT_DIR/sets" -type f -name "$1.sh")"
             if [ ! -z "$command" -a "$command" != " " ]; then
                 source "$command"
                 case "$2" in

@@ -11,7 +11,7 @@
 # Outputs:
 #   Write error message to STDERR.
 # Returns:
-#   Exit status code: 0
+#   Exit status code: 0.
 ####
 function err() {
     echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
@@ -30,12 +30,12 @@ function err() {
 #   Exit status code: 0 on success, non-zero on error.
 ####
 function seval() {
-    local func="$1"
+    local command="$1"
     shift
-    if type "$func" >/dev/null 2>&1; then
-        eval "$func" "$@"
+    if type "$command" >/dev/null 2>&1; then # Command exists
+        eval "$command" "$@"
     else
-        err "$func: Command not found"
-        return 1
+        err "$command: Command not found"
+        return 1 # Command not found
     fi
 }

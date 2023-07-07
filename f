@@ -18,7 +18,7 @@ source "$SCRIPT_DIR/libs/err.sh"
 # Outputs:
 #   Write usage instructions to STDOUT.
 # Returns:
-#   Exit status code: 0
+#   Exit status code: 0.
 ####
 function usage() {
     cat <<EOF
@@ -33,7 +33,7 @@ EOF
     cat <<EOF
 To see more detailed help on a certain command, run: f [COMMAND] [-h | --help]
 EOF
-    return 0
+    return 0 # Usage is printed
 }
 
 ####
@@ -45,7 +45,7 @@ EOF
 # Outputs:
 #   Write version and additional information to STDOUT.
 # Returns:
-#   Exit status code: 0
+#   Exit status code: 0.
 ####
 function version() {
     cat <<EOF
@@ -55,7 +55,7 @@ License:
 Author:
     Khasan Shadiyarov, khasan.shadiyarov@gmail.com
 EOF
-    return 0
+    return 0 # Version is printed
 }
 
 ####
@@ -80,7 +80,7 @@ function main() {
             ;;
         *) # Handle commands
             local command="$(find "$SCRIPT_DIR/sets" -type f -name "$1.sh")"
-            if [ ! -z "$command" -a "$command" != " " ]; then
+            if [ ! -z "$command" -a "$command" != " " ]; then # Command exists
                 source "$command"
                 case "$2" in
                     -h | --help)
@@ -92,7 +92,7 @@ function main() {
                 esac
             else
                 err "$1: Command not found"
-                return 1
+                return 1 # Command not found
             fi
     esac
 }

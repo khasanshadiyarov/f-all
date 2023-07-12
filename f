@@ -1,9 +1,9 @@
 #!/bin/bash
-# f - Script executable, used to handle arguments and run the script.
+# f - Script executable, used to handle commands and run the script.
 # Author:
 #   Khasan Shadiyarov, khasan.shadiyarov@gmail.com
 
-# Define absolute path to the tool
+# Define absolute path of the tool
 SCRIPT_DIR=$(cd "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 
 # Source libraries
@@ -28,7 +28,7 @@ Enhance some terminal operations by combining them with searching tools.
 
 Commands:
 EOF
-    # Print commands of installed sets
+    # Print commands of the installed sets
     cat "$SCRIPT_DIR"/sets/*/manifest.txt 2>/dev/null
     cat <<EOF
 To see more detailed help on a certain command, run: f [COMMAND] [-h | --help]
@@ -59,12 +59,13 @@ EOF
 }
 
 ####
-# main - Handle command execution based input arguments.
+# main - Command execution handling.
 # Globals:
 #   SCRIPT_DIR
 # Arguments:
-#   $1 - Command to be executed
-#   $2 - Optional arguments for command-specific usage
+#   $1 - Tool option or command to be executed
+#   $2 - Command option or parameter
+#   $@ - Command paramters
 # Outputs:
 #   Potential output to STDOUT or STDERR depending on the executed command.
 # Returns:
@@ -72,10 +73,10 @@ EOF
 ####
 function main() {
     case "$1" in
-        -h | --help | "")
+        -h | --help | "") # Tool usage
             seval usage
             ;;
-        -v | --version)
+        -v | --version) # Tool version
             seval version
             ;;
         *) # Handle commands
@@ -83,19 +84,19 @@ function main() {
             if [ ! -z "$command" -a "$command" != " " ]; then # Command exists
                 source "$command"
                 case "$2" in
-                    -h | --help)
+                    -h | --help) # Command usage
                         seval usage
                         ;;
-                    *)
+                    *) # Run command
                         shift
                         seval run "$@"
                 esac
-            else
+            else # Command not found
                 err "$1: Command not found"
                 return 1 # Command not found
             fi
     esac
 }
 
-# Run the script with input arguments
+# Run the script with the input paramters
 seval main "$@"
